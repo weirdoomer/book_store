@@ -1,5 +1,7 @@
 from django.db import models
 
+from .helpers import image_resize
+
 
 class ProductCategory(models.Model):
     name = models.CharField(max_length=128, unique=True)
@@ -11,18 +13,24 @@ class ProductCategory(models.Model):
     def __str__(self):
         return self.name
 
+
 class Product(models.Model):
     name = models.CharField(max_length=256, unique=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=14, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to="products_images", null=True,
-                              blank=True)
+    image = models.ImageField(
+        max_length=256, upload_to="products_images", null=True, blank=True
+    )
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
+
+    def save(self, *args, **kwargs):
+        self.image = image_resize(self.image)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Product: {self.name} | Category: {self.category.name}"

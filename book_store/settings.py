@@ -140,5 +140,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
 
 INTERNAL_IPS = [
-    "172.28.0.1",
+    "172.18.0.1",
 ]
