@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title> {{ title }} </title>{% endblock title %}
+
+
+{% block content %}
+    <!-- Carousel -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 my-4 mx-auto">
+                <div id="carouselExampleAutoplaying"
+                    class="carousel slide my-auto" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button"
+                            data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button"
+                            data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button"
+                            data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button"
+                            data-bs-target="#carouselExampleAutoplaying"
+                            data-bs-slide-to="3" aria-label="Slide 3"></button>
+                    </div>
+
+                    <div class="carousel-inner rounded-5">
+                        <div class="carousel-item active">
+                            <img src={% static "img/carousel/books.jpg" %}
+                                class="d-block w-100" alt="...">
+                            <div class="carousel-caption">
+                                Богатый выбор
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src={% static "img/carousel/supafast_delivery.jpg" %}
+                                class="d-block w-100" alt="...">
+                            <div class="carousel-caption">
+                                Быстрая доставка
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src={% static "img/carousel/tech_support.jpg" %}
+                                class="d-block w-100" alt="...">
+                            <div class="carousel-caption">
+                                Круглосуточная поддержка
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src={% static "img/carousel/tech_team.jpeg" %}
+                                class="d-block w-100" alt="...">
+                            <div class="carousel-caption">
+                                Профессиональная команда
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button"
+                        data-bs-target="#carouselExampleAutoplaying"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Предыдущий</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                        data-bs-target="#carouselExampleAutoplaying"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon"
+                            aria-hidden="true"></span>
+                        <span class="visually-hidden">Следующий</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container my-5">
+        <div class="row">
+            {% for product in object_list %}
+                <div class="col-lg-2 col-md-3 col-6 mb-4">
+                    <div class="card text-center h-100">
+                        <img class="card-img-top" src="{{ product.image.url }}"
+                            alt="">
+                        <div class="card-body">
+                                <h5>{{ product.name }}</h5>
+                        </div>
+                        <div class="card-footer">
+                            <h5>{{ product.price }} ₽</h5>
+                            <a href="#" class="btn btn-outline-success">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                                В корзину
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
