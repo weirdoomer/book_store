@@ -28,6 +28,12 @@ class Product(models.Model):
         verbose_name = "product"
         verbose_name_plural = "products"
 
+    def get_product_img_url(self):
+        try:
+            return self.image.url
+        except ValueError:
+            return None
+
     def save(self, *args, **kwargs):
         self.image = image_resize(self.image)
         super().save(*args, **kwargs)

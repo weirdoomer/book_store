@@ -82,8 +82,12 @@
             {% for product in object_list %}
                 <div class="col-lg-2 col-md-3 col-6 mb-4">
                     <div class="card text-center h-100">
+                    {% if product.get_product_img_url %}
                         <img class="card-img-top" src="{{ product.image.url }}"
-                            alt="">
+                        alt="">
+                    {% else %}
+                        <img src="/media/products_images/default_product_image.webp" alt="">
+                    {% endif %}
                         <div class="card-body">
                                 <h5>{{ product.name }}</h5>
                         </div>
