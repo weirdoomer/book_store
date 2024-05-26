@@ -9,7 +9,7 @@ def image_resize(image):
     try:
         with Image.open(image) as img:
             img.load()
-    
+
         pic_size = (367, 507)
 
         resized_img = img.resize(pic_size)
