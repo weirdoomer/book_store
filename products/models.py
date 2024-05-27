@@ -1,6 +1,6 @@
 from django.db import models
 
-from .helpers import image_resize
+from .utils import image_resize
 
 
 class ProductCategory(models.Model):

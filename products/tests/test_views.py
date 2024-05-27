@@ -13,7 +13,6 @@ from products.tests.tests_helpers.products_test_helpers import (
 class IndexPageTests(TestCase, ProductsHelpersMixin):
     def setUp(self):
         self.create_product()
-        print(self.product.image.path)
 
     def tearDown(self):
         self.product.image.delete()

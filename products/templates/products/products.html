@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <h2 class="my-4">Категории</h2>
+                <div class="list-group">
+                    {% for category in categories %}
+                        <a href="{% url 'products:category' category.id %}" class="list-group-item">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-lg-9 mt-4">
+                <div class="row">
+                    {% for product in object_list %}
+                        <div class="col-lg-3 col-md-4 col-6 col-sm-6 mb-4">
+                            <div class="card text-center h-100">
+                            {% if product.get_product_img_url %}
+                                <img class="card-img-top" src="{{ product.image.url }}"
+                                alt="">
+                            {% else %}
+                                <img src="/media/products_images/default_product_image.webp" alt="">
+                            {% endif %}
+                                <div class="card-body">
+                                        <h5>{{ product.name }}</h5>
+                                </div>
+                                <div class="card-footer">
+                                    <h5>{{ product.price }} ₽</h5>
+                                    <a href="#" class="btn btn-outline-success">
+                                        <i class="fa-solid fa-basket-shopping"></i>
+                                        В корзину
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if is_paginated %}
+                    {% include "./pagination.html" %}
+                {% endif %}
+
+            </div>
+            
+
+        </div>
+    </div>
+{% endblock content %}

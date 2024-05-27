@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}<title> {{ title }} </title>{% endblock title %}
-
 
 {% block content %}
     <!-- Carousel -->
@@ -101,6 +99,10 @@
                     </div>
                 </div>
             {% endfor %}
+
+            {% if is_paginated %}
+                {% include "./pagination.html" %}
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
