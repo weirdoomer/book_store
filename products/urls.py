@@ -7,7 +7,7 @@ app_name = "products"
 urlpatterns = [
     path("", ProductsListView.as_view(), name="index"),
     path(
-        "category/<int:category_id>/",
+        "category/<slug:category_slug>/",
         ProductsListView.as_view(),
         name="category",
     ),

@@ -9,7 +9,7 @@
                 <h2 class="my-4">Категории</h2>
                 <div class="list-group">
                     {% for category in categories %}
-                        <a href="{% url 'products:category' category.id %}" class="list-group-item">{{ category.name }}</a>
+                        <a href="{% url 'products:category' category.slug %}" class="list-group-item">{{ category.name }}</a>
                     {% endfor %}
                 </div>
             </div>

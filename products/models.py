@@ -1,21 +1,33 @@
+from time import time
+
 from django.db import models
 
-from .utils import image_resize
+from .utils import image_resize, slugify
 
 
 class ProductCategory(models.Model):
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128, null=False, unique=True)
+    slug = models.SlugField(max_length=128, null=True, unique=True)
 
     class Meta:
         verbose_name = "category"
         verbose_name_plural = "categories"
+
+    def save(self, *args, **kwargs):
+        if self.slug is None:
+            self.slug = slugify(self.name)
+            if self.slug == "":
+                self.slug = slugify(f"default_slug_{time()}")
+        elif self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=256, unique=True)
+    name = models.CharField(max_length=256, null=False, unique=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=14, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)

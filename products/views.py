@@ -23,10 +23,10 @@ class ProductsListView(TitleMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        category_id = self.kwargs.get("category_id")
+        category_slug = self.kwargs.get("category_slug")
         return (
-            queryset.filter(category_id=category_id)
-            if category_id
+            queryset.filter(category__slug=category_slug)
+            if category_slug
             else queryset
         )
 
