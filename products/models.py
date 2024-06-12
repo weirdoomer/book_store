@@ -18,6 +18,8 @@ class ProductCategory(models.Model):
             self.slug = slugify(self.name)
             if self.slug == "":
                 self.slug = slugify(f"default_slug_{time()}")
+        elif self.slug == "":
+            self.slug = slugify(f"default_slug_{time()}")
         elif self.slug:
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
