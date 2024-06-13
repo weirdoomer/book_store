@@ -3,14 +3,39 @@ from django.test import TestCase, override_settings
 from PIL import Image
 
 from products.tests.tests_helpers.products_test_helpers import (
-    ProductsHelpersMixin,
+    ProductCategoryMixin,
+    ProductHelpersMixin,
 )
+
+
+class ProductCategoryModelTests(TestCase, ProductCategoryMixin):
+    def tearDown(self):
+        self.category.delete()
+
+    def test_create_category_with_slug(self):
+        self.create_category(name="Тестовая категория")
+        self.assertEqual("Тестовая категория", self.category.name)
+        self.assertEqual("testovaya-kategoriya", self.category.slug)
+
+    def test_change_category_name_and_recreate_slug(self):
+        self.create_category(name="Тестовая категория")
+        self.category.name = "Измененная тестовая категория"
+        self.category.save()
+        self.assertEqual("Измененная тестовая категория", self.category.name)
+        self.assertEqual(
+            "izmenennaya-testovaya-kategoriya", self.category.slug
+        )
+
+    def test_create_category_with_name_from_symbols(self):
+        self.create_category(name="!@#$%^&*()_+")
+        self.assertEqual("!@#$%^&*()_+", self.category.name)
+        self.assertIn("default_slug_", self.category.slug)
 
 
 @override_settings(
     MEDIA_ROOT=settings.BASE_DIR / "products/tests/test_data/media"
 )
-class ProductModelTests(TestCase, ProductsHelpersMixin):
+class ProductModelTests(TestCase, ProductHelpersMixin):
     def tearDown(self):
         self.product.image.delete()
         self.category.delete()

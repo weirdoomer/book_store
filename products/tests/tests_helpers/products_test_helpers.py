@@ -3,7 +3,7 @@ from django.core.files import File
 from products.models import Product, ProductCategory
 
 
-class ProductsHelpersMixin:
+class ProductHelpersMixin:
     def create_product(self, with_image=True):
         if with_image:
             image_path = "products/tests/test_data/test_img.jpeg"
@@ -24,7 +24,7 @@ class ProductsHelpersMixin:
                 self.product.save()
         else:
             self.category = ProductCategory.objects.create(
-                name="Test category"
+                name="Категория из юнит-тестов"
             )
             self.product = Product(
                 name="Test product",
@@ -33,3 +33,8 @@ class ProductsHelpersMixin:
                 category=self.category,
             )
             self.product.save()
+
+
+class ProductCategoryMixin:
+    def create_category(self, name, slug=None):
+        self.category = ProductCategory.objects.create(name=name, slug=slug)
