@@ -41,7 +41,7 @@ class ProductModelTests(TestCase, ProductHelpersMixin):
         self.category.delete()
 
     def test_resize_and_save_img(self):
-        self.create_product()
+        self.create_product_with_category()
 
         pic_size = (367, 507)
         pic_format = "WEBP"
@@ -53,13 +53,13 @@ class ProductModelTests(TestCase, ProductHelpersMixin):
         self.assertEqual(product_image.format, pic_format)
 
     def test_get_product_img_url_with_image(self):
-        self.create_product()
+        self.create_product_with_category()
 
         expected_url = "/media/products_images/test_img.webp"
         self.assertEqual(self.product.get_product_img_url(), expected_url)
 
     def test_get_product_img_url_without_image(self):
-        self.create_product(with_image=False)
+        self.create_product_with_category(with_image=False)
 
         expected_url = None
         self.product.image.delete()

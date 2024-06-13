@@ -4,7 +4,7 @@ from products.models import Product, ProductCategory
 
 
 class ProductHelpersMixin:
-    def create_product(self, with_image=True):
+    def create_product_with_category(self, with_image=True):
         if with_image:
             image_path = "products/tests/test_data/test_img.jpeg"
             image_name = "test_img.jpeg"
@@ -24,7 +24,7 @@ class ProductHelpersMixin:
                 self.product.save()
         else:
             self.category = ProductCategory.objects.create(
-                name="Категория из юнит-тестов"
+                name="Test category"
             )
             self.product = Product(
                 name="Test product",
