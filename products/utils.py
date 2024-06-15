@@ -1,5 +1,6 @@
 from io import BytesIO
 from pathlib import Path
+from time import time
 
 from django.core.files import File
 from django.utils.text import slugify as django_slugify
@@ -67,3 +68,30 @@ def slugify(string):
     }
 
     return django_slugify("".join(alphabet.get(w, w) for w in string.lower()))
+
+
+def slug_check_and_gen(object):
+    """
+    Функция проверки поля name у предоставляемого объекта, создания на его
+    основе слага и записи в поле slug предоставляемого объекта.
+
+    Перед генерацией слага проверяются след.случаи:
+    1) Если слага ранее не было (т.е в бд slug=None).
+
+    2) Если слаг уже был и нужно сгенерировать его еще раз - для случаев,
+    когда у объекта изменяется name и нужно обновить слаг.
+
+    3) Если имя, предоставляемое в метод ген-ции слагов slugify(), состоит из
+    символов и метод возвращает пустую строку - генерируется слаг след.вида
+    default_slug_timestamp(время на момент создания слага).
+    """
+    if object.slug is None:
+        object.slug = slugify(object.name)
+        if object.slug == "":
+            object.slug = slugify(f"default_slug_{time()}")
+    elif object.slug == "":
+        object.slug = slugify(f"default_slug_{time()}")
+    elif object.slug:
+        object.slug = slugify(object.name)
+        if object.slug == "":
+            object.slug = slugify(f"default_slug_{time()}")

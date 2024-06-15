@@ -1,8 +1,6 @@
-from time import time
-
 from django.db import models
 
-from .utils import image_resize, slugify
+from .utils import image_resize, slug_check_and_gen
 
 
 class ProductCategory(models.Model):
@@ -14,14 +12,7 @@ class ProductCategory(models.Model):
         verbose_name_plural = "categories"
 
     def save(self, *args, **kwargs):
-        if self.slug is None:
-            self.slug = slugify(self.name)
-            if self.slug == "":
-                self.slug = slugify(f"default_slug_{time()}")
-        elif self.slug == "":
-            self.slug = slugify(f"default_slug_{time()}")
-        elif self.slug:
-            self.slug = slugify(self.name)
+        slug_check_and_gen(object=self)
         return super().save(*args, **kwargs)
 
     def __str__(self):
@@ -37,6 +28,7 @@ class Product(models.Model):
         max_length=256, upload_to="products_images", null=True, blank=True
     )
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=256, null=True, unique=True)
 
     class Meta:
         verbose_name = "product"
@@ -49,7 +41,9 @@ class Product(models.Model):
             return None
 
     def save(self, *args, **kwargs):
-        self.image = image_resize(self.image)
+        if self.image:
+            self.image = image_resize(self.image)
+        slug_check_and_gen(object=self)
         super().save(*args, **kwargs)
 
     def __str__(self):
