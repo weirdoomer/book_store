@@ -3,12 +3,12 @@ from django.test import TestCase, override_settings
 from PIL import Image
 
 from products.tests.tests_helpers.products_test_helpers import (
-    ProductCategoryMixin,
+    ProductCategoryHelpersMixin,
     ProductHelpersMixin,
 )
 
 
-class ProductCategoryModelTests(TestCase, ProductCategoryMixin):
+class ProductCategoryModelTests(TestCase, ProductCategoryHelpersMixin):
     def tearDown(self):
         self.category.delete()
 
@@ -41,7 +41,11 @@ class ProductModelTests(TestCase, ProductHelpersMixin):
         self.category.delete()
 
     def test_resize_and_save_img(self):
-        self.create_product_with_category()
+        product_name = "Test product"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name, category_name=category_name
+        )
 
         pic_size = (367, 507)
         pic_format = "WEBP"
@@ -53,14 +57,55 @@ class ProductModelTests(TestCase, ProductHelpersMixin):
         self.assertEqual(product_image.format, pic_format)
 
     def test_get_product_img_url_with_image(self):
-        self.create_product_with_category()
+        product_name = "Test product"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name, category_name=category_name
+        )
 
         expected_url = "/media/products_images/test_img.webp"
         self.assertEqual(self.product.get_product_img_url(), expected_url)
 
     def test_get_product_img_url_without_image(self):
-        self.create_product_with_category(with_image=False)
+        product_name = "Test product"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name,
+            category_name=category_name,
+            with_image=False,
+        )
 
         expected_url = None
         self.product.image.delete()
         self.assertEqual(self.product.get_product_img_url(), expected_url)
+
+    def test_create_product_with_slug(self):
+        product_name = "Test product"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name, category_name=category_name
+        )
+        self.assertEqual(product_name, self.product.name)
+        self.assertEqual("test-product", self.product.slug)
+
+    def test_change_product_name_and_recreate_slug(self):
+        product_name = "Test product"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name,
+            category_name=category_name,
+            with_image=False,
+        )
+        self.product.name = "Измененное имя продукта"
+        self.product.save()
+        self.assertEqual("Измененное имя продукта", self.product.name)
+        self.assertEqual("izmenennoe-imya-produkta", self.product.slug)
+
+    def test_create_product_with_name_from_symbols(self):
+        product_name = "!@#$%^&*()_+"
+        category_name = "Test category"
+        self.create_product_with_category(
+            product_name=product_name, category_name=category_name
+        )
+        self.assertEqual(product_name, self.product.name)
+        self.assertIn("default_slug_", self.product.slug)

@@ -4,16 +4,16 @@ from products.models import Product, ProductCategory
 
 
 class ProductHelpersMixin:
-    def create_product_with_category(self, with_image=True):
+    def create_product_with_category(
+        self, product_name, category_name, with_image=True
+    ):
         if with_image:
             image_path = "products/tests/test_data/test_img.jpeg"
             image_name = "test_img.jpeg"
 
-            self.category = ProductCategory.objects.create(
-                name="Test category"
-            )
+            self.category = ProductCategory.objects.create(name=category_name)
             self.product = Product(
-                name="Test product",
+                name=product_name,
                 description="Test description",
                 price=0.00,
                 category=self.category,
@@ -23,11 +23,9 @@ class ProductHelpersMixin:
                 self.product.image = pic
                 self.product.save()
         else:
-            self.category = ProductCategory.objects.create(
-                name="Test category"
-            )
+            self.category = ProductCategory.objects.create(name=category_name)
             self.product = Product(
-                name="Test product",
+                name=product_name,
                 description="Test description",
                 price=0.00,
                 category=self.category,
@@ -35,6 +33,6 @@ class ProductHelpersMixin:
             self.product.save()
 
 
-class ProductCategoryMixin:
+class ProductCategoryHelpersMixin:
     def create_category(self, name, slug=None):
         self.category = ProductCategory.objects.create(name=name, slug=slug)
