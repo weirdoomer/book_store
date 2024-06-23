@@ -19,6 +19,12 @@ class ProductCategory(models.Model):
         return self.name
 
 
+class Publisher(models.Model):
+    name = models.CharField(
+        max_length=128, null=False, blank=False, unique=True
+    )
+
+
 class Product(models.Model):
     name = models.CharField(max_length=256, null=False, unique=True)
     description = models.TextField()

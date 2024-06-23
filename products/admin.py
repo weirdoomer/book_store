@@ -1,6 +1,14 @@
 from django.contrib import admin
 
-from products.models import Product, ProductCategory
+from products.models import Product, ProductCategory, Publisher
+
+
+@admin.register(Publisher)
+class PublisherAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+    fields = ["name"]
+    search_fields = ["name"]
+    ordering = ["name"]
 
 
 @admin.register(ProductCategory)
