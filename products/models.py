@@ -25,6 +25,11 @@ class Publisher(models.Model):
     )
 
 
+class Author(models.Model):
+    first_name = models.CharField(max_length=128, null=False, blank=False)
+    last_name = models.CharField(max_length=128, null=False, blank=False)
+
+
 class Product(models.Model):
     name = models.CharField(max_length=256, null=False, unique=True)
     description = models.TextField()
