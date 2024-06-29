@@ -29,13 +29,37 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", "slug", "price", "quantity", "category"]
+    filter_horizontal = ["author"]
+    list_display = [
+        "name",
+        "slug",
+        "price",
+        "quantity",
+        "category",
+        "isbn",
+        "page_count",
+        "publisher",
+        "publication_year",
+        "get_author",
+    ]
     fields = [
         "name",
         "description",
         ("price", "quantity"),
         "image",
         "category",
+        "isbn",
+        "page_count",
+        "publisher",
+        "publication_year",
+        "author",
     ]
     search_fields = ["name"]
     ordering = ["name"]
+
+    @admin.display(description="author")
+    def get_author(self, instance):
+        return [
+            f"{author.last_name} {author.first_name}"
+            for author in instance.author.all()
+        ]
