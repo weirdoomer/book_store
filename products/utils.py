@@ -17,13 +17,17 @@ def image_resize(image):
         resized_img = img.resize(pic_size)
 
         img_filename_without_format = Path(image.file.name).name.split(".")[0]
+        image_format = "webp"
 
-        # Save the resized image into the buffer, noting the correct file type
+        # Сохранение картинки с измененным размеров в буфер
+        # с необходимым расширением файла
         buffer = BytesIO()
-        resized_img.save(buffer, format="webp")
+        resized_img.save(buffer, format=image_format)
 
-        # Wrap the buffer in File object
-        file_object = File(buffer, f"{img_filename_without_format}.webp")
+        # Запись буфера в File object джанги
+        file_object = File(
+            buffer, f"{img_filename_without_format}.{image_format}"
+        )
 
         return file_object
     except ValueError:
