@@ -1,5 +1,7 @@
 from django.db import models
 
+from common.utils.models.models_storages import OverwriteImageStorage
+
 from .utils import image_resize, slug_check_and_gen
 
 
@@ -40,7 +42,11 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=14, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
     image = models.ImageField(
-        max_length=256, upload_to="products_images", null=True, blank=True
+        max_length=256,
+        upload_to="products_images",
+        null=True,
+        blank=True,
+        storage=OverwriteImageStorage,
     )
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=256, null=True, unique=True)
