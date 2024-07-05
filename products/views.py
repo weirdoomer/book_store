@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
 from common.utils.views.views_mixins import TitleMixin
@@ -34,3 +35,15 @@ class ProductsListView(TitleMixin, ListView):
         context = super().get_context_data()
         context["categories"] = ProductCategory.objects.all()
         return context
+
+
+class ProductDetailView(TitleMixin, DetailView):
+    model = Product
+    template_name = "products/product.html"
+    slug_field = "slug"
+
+    def get_title(self):
+        authors_str = ", ".join(
+            [f"{i.first_name} {i.last_name}" for i in self.object.author.all()]
+        )
+        return f"{self.object.name} ({authors_str})"

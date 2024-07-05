@@ -26,7 +26,9 @@
                                 <img src="/media/products_images/default_product_image.webp" alt="">
                             {% endif %}
                                 <div class="card-body">
-                                    {{ product.name }}
+                                    <a class="productcard-link" href="{% url "products:product" product.slug %}">
+                                        {{ product.name }}
+                                    </a>
                                 </div>
                                 <div class="card-footer">
                                     <p>{{ product.price }} ₽</p>

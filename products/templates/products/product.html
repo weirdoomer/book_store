@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row">
+            <div class="col">
+                <h4>{{ product.name }}</h4>
+                <p>{{ product.author.all | join:", " }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-3">
+                {% if product.get_product_img_url %}
+                    <img class="img-fluid mx-auto d-block rounded border border-secondary-subtle border-1" src="{{ product.image.url }}" alt="">
+                {% else %}
+                    <img class="img-fluid mx-auto d-block rounded border border-secondary-subtle border-1" src="/media/products_images/default_product_image.webp" alt="">
+                {% endif %}
+            </div>
+
+            <div class="col-lg-6">
+                <b>Издательство:&nbsp;&nbsp;</b>
+                <span>{{ product.publisher }}</span>
+                <br>
+                <b>Год издания:&nbsp;&nbsp;</b>
+                <span>{{ product.publication_year }}</span>
+                <br>
+                <b>ISBN:&nbsp;&nbsp;</b>
+                <span>{{ product.isbn }}</span>
+                <br>
+                <b>Количество страниц:&nbsp;&nbsp;</b>
+                <span>{{ product.page_count }}</span>
+                <br>
+                <br>
+                <b>Описание:</b>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card text-center mx-auto d-block">
+                    <div class="card-body">
+                        {% if product.quantity == 0 %}
+                            <p>Нет на складе</p>
+                        {% else %}
+                            <h5>{{ product.price }} ₽</h5>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="card-footer">
+                        {% if product.quantity == 0 %}
+                            <a href="#" class="btn btn-secondary disabled">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                                В корзину
+                            </a>
+                        {% else %}
+                            <a href="#" class="btn btn-outline-success">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                                В корзину
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

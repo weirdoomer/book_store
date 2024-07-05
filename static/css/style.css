@@ -8,3 +8,11 @@ body {
     font-size: 17px;
 }
 
+.productcard-link {
+    text-decoration: none;
+    color: black;
+}
+
+.productcard-link:hover {
+    color: #0075B2;
+}
