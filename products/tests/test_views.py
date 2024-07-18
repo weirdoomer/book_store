@@ -65,4 +65,37 @@ class ProductsPageTests(TestCase):
         )
 
 
-# TODO написать тесты на ProductDetailView (страница товара с подробностями)
+class ProductPageTests(TestCase):
+    def setUp(self):
+        self.author = AuthorFactory()
+        self.product = ProductFactory.create(
+            category__name="Test category",
+            name="Test product",
+            author=[self.author],
+        )
+
+    def tearDown(self):
+        self.product.image.delete()
+        self.product.category.delete()
+        self.product.publisher.delete()
+        for author in self.product.author.all():
+            author.delete()
+
+    def test_product_page_has_correct_title(self):
+        response = self.client.get(
+            reverse("products:product", kwargs={"slug": self.product.slug})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "products/product.html")
+
+        authors_str = ", ".join(
+            [
+                f"{i.first_name} {i.last_name}"
+                for i in response.context["object"].author.all()
+            ]
+        )
+        self.assertEqual(
+            response.context["title"],
+            f"{response.context['object'].name} ({authors_str})",
+        )
+        print(response.context["title"])
