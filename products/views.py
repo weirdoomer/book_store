@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
@@ -8,7 +7,7 @@ from .models import Product, ProductCategory
 
 
 class IndexView(TitleMixin, ListView):
-    model = Product
+    queryset = Product.objects.only("image", "name", "price", "slug")
     template_name = "products/index.html"
     ordering = "name"
     paginate_by = 12
@@ -16,7 +15,7 @@ class IndexView(TitleMixin, ListView):
 
 
 class ProductsListView(TitleMixin, ListView):
-    model = Product
+    queryset = Product.objects.only("image", "name", "price", "slug", "category")
     template_name = "products/products.html"
     ordering = "name"
     paginate_by = 8
@@ -38,10 +37,10 @@ class ProductsListView(TitleMixin, ListView):
 
 
 class ProductDetailView(TitleMixin, DetailView):
-    model = Product
     template_name = "products/product.html"
     slug_field = "slug"
-
+    queryset = Product.objects.select_related("publisher").prefetch_related("author")
+    
     def get_title(self):
         authors_str = ", ".join(
             [f"{i.first_name} {i.last_name}" for i in self.object.author.all()]

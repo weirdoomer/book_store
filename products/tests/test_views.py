@@ -98,4 +98,3 @@ class ProductPageTests(TestCase):
             response.context["title"],
             f"{response.context['object'].name} ({authors_str})",
         )
-        print(response.context["title"])
