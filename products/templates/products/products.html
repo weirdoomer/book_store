@@ -31,11 +31,19 @@
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <p>{{ product.price }} ₽</p>
-                                    <a href="#" class="btn btn-outline-success">
-                                        <i class="fa-solid fa-basket-shopping"></i>
-                                        В корзину
-                                    </a>
+                                    {% if product.quantity == 0 %}
+                                        <p>Нет на складе</p>
+                                        <a href="#" class="btn btn-secondary disabled">
+                                            <i class="fa-solid fa-basket-shopping"></i>
+                                            В корзину
+                                        </a>
+                                    {% else %}
+                                        <p>{{ product.price }} ₽</p>
+                                        <a href="#" class="btn btn-outline-success">
+                                            <i class="fa-solid fa-basket-shopping"></i>
+                                            В корзину
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

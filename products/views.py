@@ -15,7 +15,9 @@ class IndexView(TitleMixin, ListView):
 
 
 class ProductsListView(TitleMixin, ListView):
-    queryset = Product.objects.only("image", "name", "price", "slug", "category")
+    queryset = Product.objects.only(
+        "image", "name", "price", "slug", "category"
+    )
     template_name = "products/products.html"
     ordering = "name"
     paginate_by = 8
@@ -39,8 +41,10 @@ class ProductsListView(TitleMixin, ListView):
 class ProductDetailView(TitleMixin, DetailView):
     template_name = "products/product.html"
     slug_field = "slug"
-    queryset = Product.objects.select_related("publisher").prefetch_related("author")
-    
+    queryset = Product.objects.select_related("publisher").prefetch_related(
+        "author"
+    )
+
     def get_title(self):
         authors_str = ", ".join(
             [f"{i.first_name} {i.last_name}" for i in self.object.author.all()]
