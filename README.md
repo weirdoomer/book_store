@@ -1,5 +1,6 @@
 # book_store
-Онлайн магазин книг Book Store (проект создан в целях практики)
+Онлайн магазин книг Book Store (проект для портфолио)
+### STATUS: UNDER DEVELOPMENT!!!
 
 
 ## Entity Relationship Diagram
