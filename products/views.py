@@ -7,7 +7,9 @@ from .models import Product, ProductCategory
 
 
 class IndexView(TitleMixin, ListView):
-    queryset = Product.objects.only("image", "name", "price", "slug")
+    queryset = Product.objects.only(
+        "image", "name", "price", "slug", "quantity"
+    )
     template_name = "products/index.html"
     ordering = "name"
     paginate_by = 12
@@ -16,7 +18,7 @@ class IndexView(TitleMixin, ListView):
 
 class ProductsListView(TitleMixin, ListView):
     queryset = Product.objects.only(
-        "image", "name", "price", "slug", "category"
+        "image", "name", "price", "slug", "category", "quantity"
     )
     template_name = "products/products.html"
     ordering = "name"
