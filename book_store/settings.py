@@ -146,3 +146,26 @@ INTERNAL_IPS = [
 LOGIN_URL = "/users/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+# Sending emails
+
+if DEBUG:
+    # для заглушки отправки эл.сообщений в консоль:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_HOST = environ.get("EMAIL_HOST")
+    EMAIL_PORT = environ.get("EMAIL_PORT")
+    EMAIL_HOST_USER = environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_SSL = environ.get("EMAIL_USE_SSL")
+
+# Redis
+
+REDIS_HOST = environ.get("REDIS_HOST")
+REDIS_PORT = environ.get("REDIS_PORT")
+
+# Celery
+
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}"
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
