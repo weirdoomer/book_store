@@ -3,18 +3,23 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
-from common.utils.views.views_mixins import TitleMixin
+from common.utils.views.views_mixins import (
+    TitleMixin,
+    UserAlreadyAuthenticated,
+)
 from users.forms import UserLoginForm, UserRegistrationForm
 from users.models import User
 
 
-class UserLoginView(TitleMixin, LoginView):
+class UserLoginView(TitleMixin, UserAlreadyAuthenticated, LoginView):
     template_name = "users/login.html"
     form_class = UserLoginForm
     title = "Авторизация"
 
 
-class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
+class UserRegistrationView(
+    TitleMixin, UserAlreadyAuthenticated, SuccessMessageMixin, CreateView
+):
     model = User
     form_class = UserRegistrationForm
     template_name = "users/registration.html"
