@@ -10,23 +10,44 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from os import environ
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(BASE_DIR / ".env_web")
+
+env = environ.Env(
+    DEBUG=(bool),
+    ALLOWED_HOSTS=(list),
+    SECRET_KEY=(str),
+    DOMAIN_NAME=(str),
+    REDIS_HOST=(str),
+    REDIS_PORT=(str),
+    DATABASE_NAME=(str),
+    DATABASE_USER=(str),
+    DATABASE_PASSWORD=(str),
+    DATABASE_HOST=(str),
+    DATABASE_PORT=(str),
+    EMAIL_HOST=(str),
+    EMAIL_PORT=(int),
+    EMAIL_HOST_USER=(str),
+    EMAIL_HOST_PASSWORD=(str),
+    EMAIL_USE_SSL=(bool),
+)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ.get("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(environ.get("DEBUG"))
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -39,6 +60,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     "users",
     "products",
 ]
@@ -80,12 +102,12 @@ WSGI_APPLICATION = "book_store.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": environ.get("POSTGRES_ENGINE"),
-        "NAME": environ.get("POSTGRES_DB"),
-        "USER": environ.get("POSTGRES_USER"),
-        "PASSWORD": environ.get("POSTGRES_PASSWORD"),
-        "HOST": environ.get("POSTGRES_HOST"),
-        "PORT": environ.get("POSTGRES_PORT"),
+       "ENGINE": env("POSTGRES_ENGINE"),
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
     }
 }
 
@@ -153,19 +175,25 @@ if DEBUG:
     # для заглушки отправки эл.сообщений в консоль:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
-    EMAIL_HOST = environ.get("EMAIL_HOST")
-    EMAIL_PORT = environ.get("EMAIL_PORT")
-    EMAIL_HOST_USER = environ.get("EMAIL_HOST_USER")
-    EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD")
-    EMAIL_USE_SSL = environ.get("EMAIL_USE_SSL")
+    EMAIL_HOST = env("EMAIL_HOST")
+    EMAIL_PORT = env("EMAIL_PORT")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_SSL = env("EMAIL_USE_SSL")
 
 # Redis
 
-REDIS_HOST = environ.get("REDIS_HOST")
-REDIS_PORT = environ.get("REDIS_PORT")
+REDIS_HOST = env("REDIS_HOST")
+REDIS_PORT = env("REDIS_PORT")
 
 # Celery
 
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+SITE_ID = 1
+
+# для формирования ссылки подтверждения email-адреса когда DEBUG=True
+
+DOMAIN_NAME = env("DOMAIN_NAME")

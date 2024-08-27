@@ -22,4 +22,5 @@ typing_extensions==4.11.0
 factory-boy==3.3.0
 redis==5.0.8
 django-redis==5.4.0
-celery==5.4.0  
+celery==5.4.0
+django-environ==0.11.2
