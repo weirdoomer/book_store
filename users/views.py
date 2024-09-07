@@ -11,6 +11,7 @@ from common.utils.views.views_mixins import (
 )
 from users.forms import UserLoginForm, UserRegistrationForm
 from users.models import EmailVerification, User
+from users.tasks import send_email_verification
 
 
 class UserLoginView(TitleMixin, UserAlreadyAuthenticated, LoginView):
@@ -29,9 +30,14 @@ class UserRegistrationView(
     success_message = "Вы успешно зарегестрированы!"
     title = "Регистрация"
 
+    def form_valid(self, form):
+        user = form.save()
+        send_email_verification.delay(user.id)
+        return super().form_valid(form)
+
 
 class EmailVerificationView(TitleMixin, TemplateView):
-    title = "Store - Подтверждение электронной почты"
+    title = "Подтверждение электронной почты"
     template_name = "users/email_verification.html"
 
     def get(self, request, *args, **kwargs):
