@@ -41,9 +41,9 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-6">
                             <h6>Статус почты</h6>
                             <div class="profile-line"></div>
-                            {% if user.is_verified %}
+                            {% if user.is_verified_email %}
                                 <div style="color: green">
-                                    Почта подтверждена<i class="fas fa-check-circle"></i>
+                                    Почта подтверждена <i class="fas fa-check-circle"></i>
                                 </div>
                             {% else %}
                                 <div style="color:red">
