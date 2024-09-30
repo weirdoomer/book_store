@@ -3,6 +3,7 @@ from django.urls import path
 
 from users.views import (
     EmailVerificationView,
+    ProfileView,
     UserLoginView,
     UserRegistrationView,
 )
@@ -18,4 +19,5 @@ urlpatterns = [
         EmailVerificationView.as_view(),
         name="email_verification",
     ),
+    path("profile/", ProfileView.as_view(), name="profile"),
 ]

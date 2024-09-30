@@ -1,0 +1,22 @@
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+
+    /* margin ниже для центрирования */
+    margin: 0 auto; 
+    
+    background-color: #212529;
+    border-radius: 50%;
+}
+
+[data-letter]::before {
+    content: attr(data-letter);
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    text-transform: uppercase;
+    color: #f8f8f8;
+}

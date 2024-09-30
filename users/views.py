@@ -1,8 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from common.utils.views.views_mixins import (
@@ -57,3 +59,12 @@ class EmailVerificationView(TitleMixin, TemplateView):
             )
         else:
             return HttpResponseRedirect(reverse("index"))
+
+
+class ProfileView(LoginRequiredMixin, TitleMixin, DetailView):
+    model = User
+    title = "Профиль"
+    template_name = "users/profile.html"
+
+    def get_object(self):
+        return self.request.user

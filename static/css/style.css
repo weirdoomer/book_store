@@ -16,3 +16,16 @@ body {
 .productcard-link:hover {
     color: #0075B2;
 }
+
+.profile-line {
+    margin: 10px auto;
+    background-color: #00000020;
+    border-radius: 20px;
+    width: 100px;
+    height: 2px;
+}
+
+.container-profile {
+    width: 50%;
+    margin: 0 auto;
+}

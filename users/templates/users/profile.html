@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+    <link href="{% static 'css/avatar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="container-profile">
+            <h4 class="mt-4">Профиль</h4>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row my-4">
+                        <div class="avatar col-lg-12 col-md-12 col-sm-12 col-12" data-letter="{{ user.username|make_list|first }}"></div>
+                    </div>
+                    <div class="row text-center my-4 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                            <h6>Ник</h6>
+                            <div class="profile-line"></div>
+                            <p>{{ user.username }}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                            <h6>Имя</h6>
+                            <div class="profile-line"></div>
+                            <p>{{ user.first_name }}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-4">
+                            <h6>Фамилия</h6>
+                            <div class="profile-line"></div>
+                            <p>{{ user.last_name }}</p>
+                        </div>
+                    </div>
+                    <div class="row text-center my-4">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                            <h6>Почта</h6>
+                            <div class="profile-line"></div>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                            <h6>Статус почты</h6>
+                            <div class="profile-line"></div>
+                            {% if user.is_verified %}
+                                <div style="color: green">
+                                    Почта подтверждена<i class="fas fa-check-circle"></i>
+                                </div>
+                            {% else %}
+                                <div style="color:red">
+                                    Почта не подтверждена <i class="fas fa-times-circle"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row text-center my-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                            <button type="button" class="btn btn-outline-success">
+                                Редактировать профиль
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+{% endblock content %}
